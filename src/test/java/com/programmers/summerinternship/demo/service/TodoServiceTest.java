@@ -7,9 +7,12 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.annotation.Order;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.*;
@@ -28,7 +31,7 @@ public class TodoServiceTest {
                 .title("test create title")
                 .contents("test create contents")
                 .endAt(LocalDateTime.now().plusDays(1))
-                .priority(1L)
+                .priority(4L)
                 .build();
 
         Todo createdTodo = todoService.create(todoDto);
@@ -67,8 +70,6 @@ public class TodoServiceTest {
     @Test(expected = IllegalArgumentException.class)
     public void createTodo_wrong_endAt(){
 
-        String overflowContents = RandomStringUtils.random(2001);
-
         TodoDto todoDto = TodoDto.builder()
                 .title("test")
                 .contents("test contents")
@@ -77,6 +78,25 @@ public class TodoServiceTest {
                 .build();
 
         Todo createdTodo = todoService.create(todoDto);
+    }
+
+    @Test
+    public void getTodoList(){
+        IntStream.range(0,30).forEach(this::generateTodo);
+
+        List<Todo> todoList = todoService.findAll(2,10);
+        assertThat(todoList.size()).isEqualTo(10);
+    }
+
+    private Todo generateTodo(int index){
+        TodoDto todoDto = TodoDto.builder()
+                .title("title " + index)
+                .contents("test contents")
+                .endAt(LocalDateTime.now().plusDays(index + 1))
+                .priority(4L)
+                .build();
+
+        return todoService.create(todoDto);
     }
 
 }

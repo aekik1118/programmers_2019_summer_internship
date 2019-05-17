@@ -6,10 +6,13 @@ import com.programmers.summerinternship.demo.service.TodoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.client.HttpClientErrorException;
+
+import java.util.List;
 
 import static org.springframework.http.ResponseEntity.badRequest;
 
@@ -31,5 +34,11 @@ public class TodoController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.toString());
         }
+    }
+
+    @GetMapping(path = "list")
+    public ResponseEntity getTodoList(Long offset, int limit){
+        List<Todo> todoList = todoService.findAll(offset, limit);
+        return ResponseEntity.ok(todoList);
     }
 }

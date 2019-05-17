@@ -14,6 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -59,8 +60,23 @@ public class TodoControllerTest {
         mockMvc.perform(post("/api/todo/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(todoDto)))
-                .andDo(print())
-                .andExpect(status().isBadRequest());
+                    .andDo(print())
+                    .andExpect(status().isBadRequest());
+    }
+
+    @Test
+    public void getTodoList() throws Exception {
+
+        Long offset = 0L;
+        Integer limit = 10;
+
+        mockMvc.perform(get("/api/todo/list")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .param("offset", offset.toString())
+                .param("limit", limit.toString()))
+                    .andDo(print())
+                    .andExpect(status().isOk());
+
     }
 
 }

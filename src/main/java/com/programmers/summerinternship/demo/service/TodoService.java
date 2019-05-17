@@ -5,6 +5,8 @@ import com.programmers.summerinternship.demo.model.TodoDto;
 import com.programmers.summerinternship.demo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class TodoService {
 
@@ -24,5 +26,14 @@ public class TodoService {
                 .endAt(createTodo.getEndAt())
                 .priority(createTodo.getPriority())
                 .build();
+    }
+
+    public List<Todo> findAll(long offset, int limit) {
+        if (offset < 0)
+            offset = 0;
+        if (limit < 1 || limit > 30)
+            limit = 20;
+
+        return todoRepository.selectAll(offset, limit);
     }
 }
