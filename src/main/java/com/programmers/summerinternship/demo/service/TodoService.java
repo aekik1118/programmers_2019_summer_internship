@@ -18,14 +18,8 @@ public class TodoService {
 
     public Todo create(TodoDto todoDto) {
         Todo createTodo = new Todo(todoDto);
-        Long newSeq = todoRepository.save(createTodo);
-        return Todo.builder()
-                .seq(newSeq)
-                .title(createTodo.getTitle())
-                .contents(createTodo.getContents())
-                .endAt(createTodo.getEndAt())
-                .priority(createTodo.getPriority())
-                .build();
+        Long result = todoRepository.save(createTodo);
+        return createTodo;
     }
 
     public List<Todo> findAll(long offset, int limit) {
