@@ -49,4 +49,8 @@ public class TodoService {
         Long result =  todoRepository.update(updateTodo);
         return updateTodo;
     }
+
+    public void delete(Long seq) {
+        todoRepository.delete(seq);
+    }
 }

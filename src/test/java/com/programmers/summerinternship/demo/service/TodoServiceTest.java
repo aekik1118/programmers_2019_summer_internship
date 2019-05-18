@@ -121,6 +121,16 @@ public class TodoServiceTest {
         assertThat(update.getContents()).isEqualTo(getTodo.get().getContents());
     }
 
+    @Test
+    public void deleteTodo(){
+        Todo createTodo = generateTodo(1);
+
+        todoService.delete(createTodo.getSeq());
+
+        Optional<Todo> todo = todoService.getTodo(createTodo.getSeq());
+        assertThat(todo.isPresent()).isFalse();
+    }
+
     private Todo generateTodo(int index){
         TodoDto todoDto = TodoDto.builder()
                 .title("title " + index)

@@ -22,4 +22,7 @@ public interface TodoRepository {
 
     @Update("UPDATE TODO SET title = #{title}, contents = #{contents}, endAt = #{endAt}, priority = #{priority}, isDone = #{isDone} WHERE seq = #{seq}")
     Long update(Todo todo);
+
+    @Delete("DELETE FROM TODO WHERE seq = #{seq}")
+    void delete(Long seq);
 }

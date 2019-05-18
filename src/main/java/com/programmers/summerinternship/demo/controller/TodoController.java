@@ -54,7 +54,7 @@ public class TodoController {
         try {
             Optional<Todo> getTodo = todoService.getTodo(seq);
             if(!getTodo.isPresent()){
-                return ResponseEntity.ok(getTodo.get());
+                return ResponseEntity.notFound().build();
             }
 
             Todo updateTodo = todoService.update(seq, todoDto);
@@ -62,5 +62,11 @@ public class TodoController {
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.toString());
         }
+    }
+
+    @DeleteMapping("/{seq}")
+    public ResponseEntity deleteTodo(@PathVariable Long seq){
+        todoService.delete(seq);
+        return ResponseEntity.ok().build();
     }
 }

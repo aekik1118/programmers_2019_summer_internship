@@ -1,7 +1,9 @@
 package com.programmers.summerinternship.demo.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.programmers.summerinternship.demo.model.Todo;
 import com.programmers.summerinternship.demo.model.TodoDto;
+import com.programmers.summerinternship.demo.service.TodoService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,9 +33,11 @@ public class TodoControllerTest {
     @Autowired
     ObjectMapper objectMapper;
 
+    @Autowired
+    TodoService todoService;
+
     @Test
     public void createTodo() throws Exception {
-
 
         TodoDto todoDto = TodoDto.builder()
                 .title("controller test title")
@@ -89,6 +93,14 @@ public class TodoControllerTest {
     }
 
     @Test
+    public void getTodo_not_exist() throws Exception {
+        mockMvc.perform(get("/api/todo/123236326")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void updateTodo() throws Exception {
 
         TodoDto todoDto = TodoDto.builder()
@@ -134,7 +146,29 @@ public class TodoControllerTest {
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(todoDto)))
                 .andDo(print())
-                .andExpect(status().isBadRequest());
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void deleteTodo() throws Exception {
+
+        TodoDto todoDto = TodoDto.builder()
+                .title("controller test title")
+                .contents("controller test contents")
+                .endAt(LocalDateTime.now().plusDays(1))
+                .build();
+
+        Todo todo = todoService.create(todoDto);
+
+        mockMvc.perform(delete("/api/todo/" + todo.getSeq())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+        mockMvc.perform(get("/api/todo/" + todo.getSeq())
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isNotFound());
     }
 
 }
