@@ -17,6 +17,7 @@ import static org.junit.Assert.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -77,6 +78,15 @@ public class TodoControllerTest {
                     .andDo(print())
                     .andExpect(status().isOk());
 
+    }
+
+    @Test
+    public void getTodo() throws Exception {
+        mockMvc.perform(get("/api/todo/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("seq").exists());
     }
 
 }

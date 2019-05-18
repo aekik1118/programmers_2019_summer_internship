@@ -15,4 +15,7 @@ public interface TodoRepository {
 
     @Select("SELECT * FROM TODO ORDER BY priority DESC, endAt OFFSET #{offset} LIMIT #{limit}" )
     List<Todo> selectAll(long offset, int limit);
+
+    @Select("SELECT * FROM TODO WHERE seq = #{seq}")
+    Todo select(Long seq);
 }

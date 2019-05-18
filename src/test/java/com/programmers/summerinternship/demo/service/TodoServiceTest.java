@@ -88,6 +88,22 @@ public class TodoServiceTest {
         assertThat(todoList.size()).isEqualTo(10);
     }
 
+    @Test
+    public void getTodo(){
+        TodoDto todoDto = TodoDto.builder()
+                .title("test get title")
+                .contents("test get contents")
+                .endAt(LocalDateTime.now().plusDays(1))
+                .priority(4L)
+                .build();
+
+        Todo createdTodo = todoService.create(todoDto);
+        Todo createdTodo2 = todoService.create(todoDto);
+        Todo getTodo = todoService.getTodo(createdTodo.getSeq());
+
+        assertThat(getTodo.getContents()).isEqualTo(createdTodo.getContents());
+    }
+
     private Todo generateTodo(int index){
         TodoDto todoDto = TodoDto.builder()
                 .title("title " + index)

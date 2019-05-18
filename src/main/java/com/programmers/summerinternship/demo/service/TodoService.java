@@ -30,4 +30,8 @@ public class TodoService {
 
         return todoRepository.selectAll(offset, limit);
     }
+
+    public Todo getTodo(Long seq) {
+        return todoRepository.select(seq);
+    }
 }

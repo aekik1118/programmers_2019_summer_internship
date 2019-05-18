@@ -6,10 +6,7 @@ import com.programmers.summerinternship.demo.service.TodoService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
@@ -40,5 +37,11 @@ public class TodoController {
     public ResponseEntity getTodoList(Long offset, int limit){
         List<Todo> todoList = todoService.findAll(offset, limit);
         return ResponseEntity.ok(todoList);
+    }
+
+    @GetMapping("/{seq}")
+    public ResponseEntity getTodo(@PathVariable Long seq){
+        Todo getTodo = todoService.getTodo(seq);
+        return ResponseEntity.ok(getTodo);
     }
 }
