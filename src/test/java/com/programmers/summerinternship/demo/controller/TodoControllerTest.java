@@ -121,4 +121,20 @@ public class TodoControllerTest {
                 .andExpect(status().isBadRequest());
     }
 
+    @Test
+    public void updateTodo_not_exist() throws Exception {
+
+        TodoDto todoDto = TodoDto.builder()
+                .title("controller update title")
+                .contents("controller update contents")
+                .endAt(LocalDateTime.now().plusDays(2))
+                .build();
+
+        mockMvc.perform(put("/api/todo/112512632")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todoDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
 }

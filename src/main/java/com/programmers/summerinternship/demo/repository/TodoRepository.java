@@ -5,6 +5,7 @@ import org.apache.ibatis.annotations.*;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 @Mapper
@@ -17,7 +18,7 @@ public interface TodoRepository {
     List<Todo> selectAll(long offset, int limit);
 
     @Select("SELECT * FROM TODO WHERE seq = #{seq}")
-    Todo select(Long seq);
+    Optional<Todo> select(Long seq);
 
     @Update("UPDATE TODO SET title = #{title}, contents = #{contents}, endAt = #{endAt}, priority = #{priority}, isDone = #{isDone} WHERE seq = #{seq}")
     Long update(Todo todo);

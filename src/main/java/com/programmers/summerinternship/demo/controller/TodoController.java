@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.springframework.http.ResponseEntity.badRequest;
 
@@ -41,13 +42,21 @@ public class TodoController {
 
     @GetMapping("/{seq}")
     public ResponseEntity getTodo(@PathVariable Long seq){
-        Todo getTodo = todoService.getTodo(seq);
-        return ResponseEntity.ok(getTodo);
+        Optional<Todo> getTodo = todoService.getTodo(seq);
+        if(getTodo.isPresent()){
+            return ResponseEntity.ok(getTodo.get());
+        }
+        return ResponseEntity.notFound().build();
     }
 
     @PutMapping("/{seq}")
     public ResponseEntity updateTodo(@PathVariable Long seq, @RequestBody TodoDto todoDto){
         try {
+            Optional<Todo> getTodo = todoService.getTodo(seq);
+            if(!getTodo.isPresent()){
+                return ResponseEntity.ok(getTodo.get());
+            }
+
             Todo updateTodo = todoService.update(seq, todoDto);
             return ResponseEntity.ok(updateTodo);
         } catch (Exception e){

@@ -6,6 +6,7 @@ import com.programmers.summerinternship.demo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TodoService {
@@ -31,7 +32,7 @@ public class TodoService {
         return todoRepository.selectAll(offset, limit);
     }
 
-    public Todo getTodo(Long seq) {
+    public Optional<Todo> getTodo(Long seq) {
         return todoRepository.select(seq);
     }
 

@@ -12,6 +12,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.IntStream;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -98,10 +99,9 @@ public class TodoServiceTest {
                 .build();
 
         Todo createdTodo = todoService.create(todoDto);
-        Todo createdTodo2 = todoService.create(todoDto);
-        Todo getTodo = todoService.getTodo(createdTodo.getSeq());
+        Optional<Todo> getTodo = todoService.getTodo(createdTodo.getSeq());
 
-        assertThat(getTodo.getContents()).isEqualTo(createdTodo.getContents());
+        assertThat(getTodo.get().getContents()).isEqualTo(createdTodo.getContents());
     }
 
     @Test
@@ -117,10 +117,9 @@ public class TodoServiceTest {
                 .build();
 
         Todo update = todoService.update(createTodo.getSeq(), updateTodoDto);
-        Todo getTodo = todoService.getTodo(createTodo.getSeq());
-        assertThat(update.getContents()).isEqualTo(getTodo.getContents());
+        Optional<Todo> getTodo = todoService.getTodo(createTodo.getSeq());
+        assertThat(update.getContents()).isEqualTo(getTodo.get().getContents());
     }
-
 
     private Todo generateTodo(int index){
         TodoDto todoDto = TodoDto.builder()
