@@ -42,7 +42,7 @@ public class TodoControllerTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("controller test title")
                 .contents("controller test contents")
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
                 .build();
         mockMvc.perform(post("/api/todo/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
@@ -53,12 +53,26 @@ public class TodoControllerTest {
     }
 
     @Test
+    public void createTodo_noDeadLine() throws Exception {
+
+        TodoDto todoDto = TodoDto.builder()
+                .title("controller test title")
+                .contents("controller test contents")
+                .build();
+        mockMvc.perform(post("/api/todo/")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todoDto)))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
     public void createTodo_wrong() throws Exception {
 
         TodoDto todoDto = TodoDto.builder()
                 .title("")
                 .contents("controller test contents")
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
                 .build();
 
         mockMvc.perform(post("/api/todo/")
@@ -106,7 +120,7 @@ public class TodoControllerTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("controller update title")
                 .contents("controller update contents")
-                .endAt(LocalDateTime.now().plusDays(2))
+                .deadline(LocalDateTime.now().plusDays(2))
                 .build();
 
         mockMvc.perform(put("/api/todo/1")
@@ -123,7 +137,7 @@ public class TodoControllerTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("")
                 .contents("controller update contents")
-                .endAt(LocalDateTime.now().plusDays(2))
+                .deadline(LocalDateTime.now().plusDays(2))
                 .build();
 
         mockMvc.perform(put("/api/todo/1")
@@ -139,7 +153,7 @@ public class TodoControllerTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("controller update title")
                 .contents("controller update contents")
-                .endAt(LocalDateTime.now().plusDays(2))
+                .deadline(LocalDateTime.now().plusDays(2))
                 .build();
 
         mockMvc.perform(put("/api/todo/112512632")
@@ -155,7 +169,7 @@ public class TodoControllerTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("controller test title")
                 .contents("controller test contents")
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
                 .build();
 
         Todo todo = todoService.create(todoDto);

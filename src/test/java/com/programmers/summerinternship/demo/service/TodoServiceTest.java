@@ -31,7 +31,21 @@ public class TodoServiceTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("test create title")
                 .contents("test create contents")
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
+                .priority(4L)
+                .build();
+
+        Todo createdTodo = todoService.create(todoDto);
+
+        assertThat(createdTodo.getTitle()).isEqualTo(todoDto.getTitle());
+    }
+
+    @Test
+    public void createTodo_noDeadLine(){
+
+        TodoDto todoDto = TodoDto.builder()
+                .title("test create title")
+                .contents("test create contents")
                 .priority(4L)
                 .build();
 
@@ -46,7 +60,7 @@ public class TodoServiceTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("")
                 .contents("test create contents")
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
                 .priority(1L)
                 .build();
 
@@ -61,7 +75,7 @@ public class TodoServiceTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("test")
                 .contents(overflowContents)
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
                 .priority(1L)
                 .build();
 
@@ -74,7 +88,7 @@ public class TodoServiceTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("test")
                 .contents("test contents")
-                .endAt(LocalDateTime.now().minusDays(1))
+                .deadline(LocalDateTime.now().minusDays(1))
                 .priority(1L)
                 .build();
 
@@ -94,7 +108,7 @@ public class TodoServiceTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("test get title")
                 .contents("test get contents")
-                .endAt(LocalDateTime.now().plusDays(1))
+                .deadline(LocalDateTime.now().plusDays(1))
                 .priority(4L)
                 .build();
 
@@ -111,7 +125,7 @@ public class TodoServiceTest {
         TodoDto updateTodoDto = TodoDto.builder()
                 .title("update title")
                 .contents("update contents")
-                .endAt(LocalDateTime.now().plusDays(21))
+                .deadline(LocalDateTime.now().plusDays(21))
                 .priority(10L)
                 .isDone(true)
                 .build();
@@ -135,7 +149,7 @@ public class TodoServiceTest {
         TodoDto todoDto = TodoDto.builder()
                 .title("title " + index)
                 .contents("test contents")
-                .endAt(LocalDateTime.now().plusDays(index + 1))
+                .deadline(LocalDateTime.now().plusDays(index + 1))
                 .priority(4L)
                 .build();
 

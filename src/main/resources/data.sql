@@ -1,3 +1,3 @@
-INSERT INTO TODO (title, contents, endAt, priority) VALUES ('test title', 'test contents', to_timestamp('2019-05-20 09:30:20','YYYY-MM-DD HH:MI:SS'), 0);
-INSERT INTO TODO (title, contents, endAt, priority) VALUES ('test title2', 'test contents2', to_timestamp('2019-05-21 09:30:20','YYYY-MM-DD HH:MI:SS'), 1);
-INSERT INTO TODO (title, contents, endAt, priority) VALUES ('test title3', 'test contents3', to_timestamp('2019-05-22 09:31:20','YYYY-MM-DD HH:MI:SS'), 0);
+INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title', 'test contents', to_timestamp('2019-05-20 09:30:20','YYYY-MM-DD HH:MI:SS'), 0, true);
+INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title2', 'test contents2', to_timestamp('2019-05-21 09:30:20','YYYY-MM-DD HH:MI:SS'), 1, true);
+INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title3', 'test contents3', to_timestamp('2019-05-22 09:31:20','YYYY-MM-DD HH:MI:SS'), 0, true);

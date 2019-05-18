@@ -22,21 +22,23 @@ public class Todo {
 
     private final LocalDateTime createAt;
 
-    private LocalDateTime endAt;
+    private LocalDateTime deadline;
 
     private Long priority;
 
     private boolean isDone;
 
+    private boolean hasDeadline;
+
     public Todo(String title, String contents, LocalDateTime endAt){
-        this(null, title, contents, null, endAt, 0L, false);
+        this(null, title, contents, null, endAt, 0L, false, false);
     }
 
     public Todo(TodoDto todoDto){
-        this(null, todoDto.getTitle(), todoDto.getContents(), null, todoDto.getEndAt(), todoDto.getPriority(), todoDto.isDone());
+        this(null, todoDto.getTitle(), todoDto.getContents(), null, todoDto.getDeadline(), todoDto.getPriority(), todoDto.isDone(), todoDto.isHasDeadline());
     }
 
-    public Todo(Long seq, String title, String contents, LocalDateTime createAt, LocalDateTime endAt, Long priority, boolean isDone) {
+    public Todo(Long seq, String title, String contents, LocalDateTime createAt, LocalDateTime deadline, Long priority, boolean isDone, boolean hasDeadline) {
 
         checkArgument(isNotBlank(title), "title must be provided.");
         checkArgument(isNotEmpty(contents), "contents must be provided.");
@@ -44,8 +46,6 @@ public class Todo {
                 contents.length() >= 1 && contents.length() <= 2000,
                 "contents length must be between 1 and 2000 characters."
         );
-        checkNotNull(endAt, "endAt must be provided.");
-
 
         this.seq = seq;
         this.title = title;
@@ -55,14 +55,17 @@ public class Todo {
             createAt = LocalDateTime.now();
         }
 
-        checkArgument(
-                createAt.isBefore(endAt),
-                "reateAt은 endAt 보다 이른 시간이여야 합니다."
-        );
+        if(deadline != null){
+            checkArgument(
+                    createAt.isBefore(deadline),
+                    "createAt은 deadline 보다 이른 시간이여야 합니다."
+            );
+
+        }
 
 
         this.createAt = createAt;
-        this.endAt = endAt;
+        this.deadline = deadline;
 
         if(priority == null){
             priority = 0L;
@@ -70,6 +73,12 @@ public class Todo {
 
         this.priority = priority;
         this.isDone = isDone;
+
+        if(deadline != null){
+            hasDeadline = true;
+        }
+        this.hasDeadline = hasDeadline;
+
     }
 
 }

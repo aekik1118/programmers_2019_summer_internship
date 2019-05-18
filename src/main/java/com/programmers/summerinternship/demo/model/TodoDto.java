@@ -12,9 +12,11 @@ public class TodoDto {
 
     private String contents;
 
-    private LocalDateTime endAt;
+    private LocalDateTime deadline;
 
     private Long priority;
 
     private boolean isDone;
+
+    private boolean hasDeadline;
 }
