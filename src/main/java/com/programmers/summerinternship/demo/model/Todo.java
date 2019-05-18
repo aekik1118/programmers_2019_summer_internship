@@ -33,7 +33,7 @@ public class Todo {
     }
 
     public Todo(TodoDto todoDto){
-        this(null, todoDto.getTitle(), todoDto.getContents(), null, todoDto.getEndAt(), todoDto.getPriority(), false);
+        this(null, todoDto.getTitle(), todoDto.getContents(), null, todoDto.getEndAt(), todoDto.getPriority(), todoDto.isDone());
     }
 
     public Todo(Long seq, String title, String contents, LocalDateTime createAt, LocalDateTime endAt, Long priority, boolean isDone) {
