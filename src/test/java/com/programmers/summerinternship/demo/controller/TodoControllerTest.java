@@ -14,8 +14,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.time.LocalDateTime;
 
 import static org.junit.Assert.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,12 +34,12 @@ public class TodoControllerTest {
     @Test
     public void createTodo() throws Exception {
 
+
         TodoDto todoDto = TodoDto.builder()
                 .title("controller test title")
                 .contents("controller test contents")
                 .endAt(LocalDateTime.now().plusDays(1))
                 .build();
-
         mockMvc.perform(post("/api/todo/")
                 .contentType(MediaType.APPLICATION_JSON_UTF8)
                 .content(objectMapper.writeValueAsString(todoDto)))
@@ -87,6 +86,23 @@ public class TodoControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("seq").exists());
+    }
+
+    @Test
+    public void updateTodo() throws Exception {
+
+        TodoDto todoDto = TodoDto.builder()
+                .title("controller update title")
+                .contents("controller update contents")
+                .endAt(LocalDateTime.now().plusDays(2))
+                .build();
+
+        mockMvc.perform(put("/api/todo/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todoDto)))
+                    .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("title").value(todoDto.getTitle()));
     }
 
 }

@@ -34,4 +34,18 @@ public class TodoService {
     public Todo getTodo(Long seq) {
         return todoRepository.select(seq);
     }
+
+    public Todo update(Long seq, TodoDto todo) {
+        Todo updateTodo = Todo.builder()
+                .seq(seq)
+                .title(todo.getTitle())
+                .contents(todo.getContents())
+                .endAt(todo.getEndAt())
+                .priority(todo.getPriority())
+                .isDone(todo.isDone())
+                .build();
+
+        Long result =  todoRepository.update(updateTodo);
+        return updateTodo;
+    }
 }

@@ -18,4 +18,7 @@ public interface TodoRepository {
 
     @Select("SELECT * FROM TODO WHERE seq = #{seq}")
     Todo select(Long seq);
+
+    @Update("UPDATE TODO SET title = #{title}, contents = #{contents}, endAt = #{endAt}, priority = #{priority}, isDone = #{isDone} WHERE seq = #{seq}")
+    Long update(Todo todo);
 }

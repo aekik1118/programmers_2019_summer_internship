@@ -44,4 +44,14 @@ public class TodoController {
         Todo getTodo = todoService.getTodo(seq);
         return ResponseEntity.ok(getTodo);
     }
+
+    @PutMapping("/{seq}")
+    public ResponseEntity updateTodo(@PathVariable Long seq, @RequestBody TodoDto todoDto){
+        try {
+            Todo updateTodo = todoService.update(seq, todoDto);
+            return ResponseEntity.ok(updateTodo);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+    }
 }

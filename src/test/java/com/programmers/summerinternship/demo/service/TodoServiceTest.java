@@ -104,6 +104,24 @@ public class TodoServiceTest {
         assertThat(getTodo.getContents()).isEqualTo(createdTodo.getContents());
     }
 
+    @Test
+    public void updateTodo(){
+        Todo createTodo = generateTodo(1);
+
+        TodoDto updateTodoDto = TodoDto.builder()
+                .title("update title")
+                .contents("update contents")
+                .endAt(LocalDateTime.now().plusDays(21))
+                .priority(10L)
+                .isDone(true)
+                .build();
+
+        Todo update = todoService.update(createTodo.getSeq(), updateTodoDto);
+        Todo getTodo = todoService.getTodo(createTodo.getSeq());
+        assertThat(update.getContents()).isEqualTo(getTodo.getContents());
+    }
+
+
     private Todo generateTodo(int index){
         TodoDto todoDto = TodoDto.builder()
                 .title("title " + index)
