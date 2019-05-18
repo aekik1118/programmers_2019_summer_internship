@@ -105,4 +105,20 @@ public class TodoControllerTest {
                 .andExpect(jsonPath("title").value(todoDto.getTitle()));
     }
 
+    @Test
+    public void updateTodo_wrong() throws Exception {
+
+        TodoDto todoDto = TodoDto.builder()
+                .title("")
+                .contents("controller update contents")
+                .endAt(LocalDateTime.now().plusDays(2))
+                .build();
+
+        mockMvc.perform(put("/api/todo/1")
+                .contentType(MediaType.APPLICATION_JSON_UTF8)
+                .content(objectMapper.writeValueAsString(todoDto)))
+                .andDo(print())
+                .andExpect(status().isBadRequest());
+    }
+
 }
