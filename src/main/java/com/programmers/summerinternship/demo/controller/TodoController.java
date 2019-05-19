@@ -92,4 +92,10 @@ public class TodoController {
             return ResponseEntity.badRequest().body(e.toString());
         }
     }
+
+    @GetMapping(path = "list/done")
+    public ResponseEntity getDoneTodoList(Long offset, int limit){
+        List<Todo> todoList = todoService.findDoneAll(offset, limit);
+        return ResponseEntity.ok(todoList);
+    }
 }

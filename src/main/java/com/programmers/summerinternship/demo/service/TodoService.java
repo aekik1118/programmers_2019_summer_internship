@@ -54,4 +54,13 @@ public class TodoService {
     public void delete(Long seq) {
         todoRepository.delete(seq);
     }
+
+    public List<Todo> findDoneAll(long offset, int limit) {
+        if (offset < 0)
+            offset = 0;
+        if (limit < 1 || limit > 30)
+            limit = 20;
+
+        return todoRepository.selectDoneAll(offset, limit);
+    }
 }

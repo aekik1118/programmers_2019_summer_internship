@@ -27,5 +27,5 @@ public interface TodoRepository {
     void delete(Long seq);
 
     @Select("SELECT * FROM TODO WHERE isDone = true ORDER BY deadline OFFSET #{offset} LIMIT #{limit}" )
-    List<Todo> selectAllDone(long offset, int limit);
+    List<Todo> selectDoneAll(long offset, int limit);
 }

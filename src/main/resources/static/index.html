@@ -193,11 +193,12 @@
 
     var curPage = 0;
     var curLimit = 10;
+    var curUrl = "/api/todo/list";
 
-    var getListPaging = function(page, limit){
+    var getListPaging = function(page, limit, url){
       $.ajax({
         type: "GET",
-        url: "/api/todo/list",
+        url: url,
         data: {
           offset : page*limit,
           limit : limit
@@ -240,24 +241,39 @@
                     "                  <!-- Card Body -->\n" +
                     "                  <div class=\"card-body\">\n" +
                     "                    <div class=\"myContents\">"+e.contents+"</div>\n" +
-                    "                  </div>\n" +
-                    "                  <div class=\"card-footer\">\n" +
-                    "                    <div class=\"btn btn-primary btn-done\" data-seq = "+e.seq+">완료</div>\n" +
-                    "                    <div class=\"btn btn-primary btn-update\" data-seq = "+e.seq+">수정</div>\n" +
-                    "                    <div class=\"btn btn-danger btn-delete\" data-seq = "+e.seq+">삭제</div>\n" +
-                    "                  </div>\n" +
-                    "                </div>\n" +
-                    "              </div>\n" +
-                    "            </li>"
+                    "                  </div>\n";
 
-            if(e.priority == 0){
-              todoList.append(cardheader + cardbody);
-            }
-            else if(e.priority == 1){
-              todoList.append(cardheaderWarning + cardbody);
+            var cardfooter = ""
+            if(e.done){
+              cardfooter =
+                      "                  <div class=\"card-footer\">\n" +
+                      "                    <div class=\"btn btn-danger btn-delete\" data-seq = "+e.seq+">삭제</div>\n" +
+                      "                  </div>\n" +
+                      "                </div>\n" +
+                      "              </div>\n" +
+                      "            </li>";
             }
             else{
-              todoList.append(cardheaderDanger + cardbody);
+              cardfooter =
+                      "                  <div class=\"card-footer\">\n" +
+                      "                    <div class=\"btn btn-primary btn-done\" data-seq = "+e.seq+">완료</div>\n" +
+                      "                    <div class=\"btn btn-primary btn-update\" data-seq = "+e.seq+">수정</div>\n" +
+                      "                    <div class=\"btn btn-danger btn-delete\" data-seq = "+e.seq+">삭제</div>\n" +
+                      "                  </div>\n" +
+                      "                </div>\n" +
+                      "              </div>\n" +
+                      "            </li>";
+            }
+
+
+            if(e.priority == 0){
+              todoList.append(cardheader + cardbody + cardfooter);
+            }
+            else if(e.priority == 1){
+              todoList.append(cardheaderWarning + cardbody + cardfooter);
+            }
+            else{
+              todoList.append(cardheaderDanger + cardbody + cardfooter);
             }
             console.log(e);
           });
@@ -271,11 +287,11 @@
       if ($(window).scrollTop() >= $(document).height() - $(window).height() - 3) {
         curPage++;
         console.log(curPage);
-        getListPaging(curPage, curLimit);
+        getListPaging(curPage, curLimit, curUrl);
       }
     });
 
-    getListPaging(0,10);
+    getListPaging(curPage, curLimit, curUrl);
 
     //생성 버튼 이벤트 설정
     var addtodobtn = $("#addtodobtn");
@@ -407,6 +423,21 @@
       })
 
 
+    });
+
+    $("#donelistbtn").click(function () {
+      todoList.html("");
+      curPage=0;
+      curUrl = "/api/todo/list/done";
+      getListPaging(curPage, curLimit, curUrl);
+
+    });
+
+    $("#listbtn").click(function () {
+      todoList.html("");
+      curPage=0;
+      curUrl = "/api/todo/list";
+      getListPaging(curPage, curLimit, curUrl);
     });
 
 </script>
