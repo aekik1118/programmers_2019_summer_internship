@@ -17,3 +17,9 @@
 > cd target
 
 > java -jar demo-0.0.1-SNAPSHOT.jar
+
+실제 작동하는 서비스 주소
+
+https://chocod.herokuapp.com/
+
+미리 테스트용 데이터를 넣어 두었습니다.
