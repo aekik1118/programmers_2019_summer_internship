@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <title>TODO 리스트</title>
+
+  <!-- Custom fonts for this template-->
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="/css/sb-admin-2.min.css" rel="stylesheet">
+  <style>
+    ul{
+      list-style:none;
+      padding-left:0px;
+    }
+  </style>
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+          <div>
+            <div id="listbtn" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">TODO 리스트</div>
+            <div id="donelistbtn" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">완료된 TODO 리스트</div>
+            <div id="addtodobtn" class="d-sm-inline-block btn btn-sm btn-primary shadow-sm">TODO 추가</div>
+          </div>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- Page Heading -->
+          <!-- Content Row -->
+          <ul id="todolist" class="row">
+
+          </ul>
+          <!-- Content Row -->
+        </div>
+        <!-- /.container-fluid -->
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Copyright &copy; Your Website 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- create Modal-->
+  <div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">TODO 생성</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>제목</label>
+            <input id="create-title" type="text" name="title">
+          </div>
+
+          <div class="form-group">
+            <label>내용</label>
+            <input id="create-contents" type="text" name="contents">
+          </div>
+
+          <div id="priority-radio" class="form-group">
+            <label>우선순위</label>
+            <input type="radio" name="priority" value="0" checked> 낮음
+            <input type="radio" name="priority" value="1"> 중간
+            <input type="radio" name="priority" value="2"> 높음
+          </div>
+
+
+          <div class="form-group">
+            <label>마감기한</label>
+            <input id="create-deadline" type="datetime-local" name="deadline">
+          </div>
+
+          <button id = "create-btn" class="btn btn-primary">생성</button>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <!--update Modal-->
+  <div class="modal fade" id="updateModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">TODO 수정</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="form-group">
+            <label>제목</label>
+            <input id="update-title" type="text" name="title">
+          </div>
+
+          <div class="form-group">
+            <label>내용</label>
+            <input id="update-contents" type="text" name="contents">
+          </div>
+
+          <div id="priority-radio-update" class="form-group">
+            <label>우선순위</label>
+            <input type="radio" name="priority-update" value="0"> 낮음
+            <input type="radio" name="priority-update" value="1"> 중간
+            <input type="radio" name="priority-update" value="2"> 높음
+          </div>
+
+
+          <div class="form-group">
+            <label>마감기한</label>
+            <input id="update-deadline" type="datetime-local" name="deadline">
+          </div>
+
+          <button id = "update-btn" class="btn btn-primary">수정</button>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="/js/sb-admin-2.min.js"></script>
+
+  <!-- Page level plugins -->
+  <!--<script src="/vendor/chart.js/Chart.min.js"></script>-->
+
+  <!-- Page level custom scripts -->
+  <!--<script src="/js/demo/chart-area-demo.js"></script>-->
+  <!--<script src="/js/demo/chart-pie-demo.js"></script>-->
+
+
+</body>
+<script>
+
+    // 리스트 출력
+    var todoList = $("#todolist");
+
+    $.ajax({
+        type: "GET",
+        url: "/api/todo/list",
+        data: {
+            offset : "0",
+            limit : "10"
+        },
+        async: false,
+        success: function (data) {
+
+          data.forEach(function (e) {
+
+            var deadlineInfo = ""
+
+            if(e.deadline != null){
+              deadlineInfo = "마감 기한 : " + e.deadline;
+            }
+
+            var cardheader = "<li class=\"container-fluid\">\n" +
+                    "              <div class=\"container-fluid\">\n" +
+                    "                <div class=\"card shadow mb-4\">\n" +
+                    "                  <!-- Card Header - Dropdown -->\n" +
+                    "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary\">\n";
+
+
+            var cardheaderWarning = "<li class=\"container-fluid\">\n" +
+                    "              <div class=\"container-fluid\">\n" +
+                    "                <div class=\"card shadow mb-4\">\n" +
+                    "                  <!-- Card Header - Dropdown -->\n" +
+                    "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-warning\">\n";
+
+            var cardheaderDanger = "<li class=\"container-fluid\">\n" +
+                    "              <div class=\"container-fluid\">\n" +
+                    "                <div class=\"card shadow mb-4\">\n" +
+                    "                  <!-- Card Header - Dropdown -->\n" +
+                    "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-danger\">\n";
+
+
+            var cardbody =
+                    "                    <h6 class=\"m-0 font-weight-bold text-white \">"+e.title+"</h6>\n" +
+                    "                    <h6 class=\"m-0 font-weight-bold text-white \">"+deadlineInfo+"</h6>\n" +
+                    "                  </div>\n"+
+                    "                  <!-- Card Body -->\n" +
+                    "                  <div class=\"card-body\">\n" +
+                    "                    <div class=\"myContents\">"+e.contents+"</div>\n" +
+                    "                  </div>\n" +
+                    "                  <div class=\"card-footer\">\n" +
+                    "                    <div class=\"btn btn-primary btn-done\" data-seq = "+e.seq+">완료</div>\n" +
+                    "                    <div class=\"btn btn-primary btn-update\" data-seq = "+e.seq+">수정</div>\n" +
+                    "                    <div class=\"btn btn-danger btn-delete\" data-seq = "+e.seq+">삭제</div>\n" +
+                    "                  </div>\n" +
+                    "                </div>\n" +
+                    "              </div>\n" +
+                    "            </li>"
+
+            if(e.priority == 0){
+              todoList.append(cardheader + cardbody);
+            }
+            else if(e.priority == 1){
+              todoList.append(cardheaderWarning + cardbody);
+            }
+            else{
+              todoList.append(cardheaderDanger + cardbody);
+            }
+            console.log(e);
+          });
+
+        }
+    });
+
+    //생성 버튼 이벤트 설정
+    var addtodobtn = $("#addtodobtn");
+
+    addtodobtn.click(function () {
+      $("#createModal").modal("show");
+    });
+
+    var createTitle = $("#create-title");
+    var createContents = $("#create-contents");
+    var createDeadline = $("#create-deadline");
+    var createBtn = $("#create-btn");
+
+    var updateTitle = $("#update-title");
+    var updateContents = $("#update-contents");
+    var updateDeadline = $("#update-deadline");
+
+    createBtn.click(function () {
+      var prioritydata = $('input:radio[name="priority"]:checked').val();
+      $.ajax({
+        type: "POST",
+        url: "/api/todo",
+        contentType:"application/json",
+        dataType:"json",
+        data: JSON.stringify({title:createTitle.val(), contents:createContents.val(), deadline:createDeadline.val(), priority:prioritydata}),
+        async: false,
+        success: function (data) {
+          alert("생성되었습니다.");
+          location.reload();
+        },
+        error: function (request, status, error) {
+          alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+      })
+    })
+
+  todoList.on("click", ".btn-delete", function (e) {
+
+    if(confirm("정말 삭제하시겠습니까?")){
+      var seq = $(this).data("seq");
+
+      $.ajax({
+        type: "DELETE",
+        url: "/api/todo/" + seq,
+        async: false,
+        success: function () {
+          alert("삭제되었습니다.");
+          location.reload();
+        },
+        error: function (request, status, error) {
+          alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+      })
+    }
+  });
+
+    todoList.on("click", ".btn-update", function (e) {
+
+      var seq = $(this).data("seq");
+
+      $.ajax({
+        type: "GET",
+        url: "/api/todo/" + seq,
+        async: false,
+        success: function (data) {
+          updateTitle.val(data.title);
+          updateContents.val(data.contents);
+          updateDeadline.val(data.deadline);
+
+          if(data.priority == 0){
+            $("input:radio[name='priority-update'][value='0']").prop('checked', true);
+          }
+          else if(data.priority == 1){
+            $("input:radio[name='priority-update'][value='1']").prop('checked', true);
+          }
+          else{
+            $("input:radio[name='priority-update'][value='2']").prop('checked', true);
+          }
+
+          $("#update-btn").data("seq",seq);
+
+          $("#updateModal").modal("show");
+        },
+        error: function (request, status, error) {
+          alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+      })
+
+
+    });
+
+    $("#update-btn").click(function () {
+
+      var prioritydata = $('input:radio[name="priority-update"]:checked').val();
+      $.ajax({
+        type: "PUT",
+        url: "/api/todo/" +  $("#update-btn").data("seq"),
+        contentType:"application/json",
+        dataType:"json",
+        data: JSON.stringify({title:updateTitle.val(), contents:updateContents.val(), deadline:updateDeadline.val(), priority:prioritydata}),
+        async: false,
+        success: function (data) {
+          alert("수정되었습니다.");
+          location.reload();
+        },
+        error: function (request, status, error) {
+          alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+        }
+      })
+
+
+    })
+
+
+
+</script>
+
+</html>
