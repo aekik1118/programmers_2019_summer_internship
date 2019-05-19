@@ -191,12 +191,16 @@
     // 리스트 출력
     var todoList = $("#todolist");
 
-    $.ajax({
+    var curPage = 0;
+    var curLimit = 10;
+
+    var getListPaging = function(page, limit){
+      $.ajax({
         type: "GET",
         url: "/api/todo/list",
         data: {
-            offset : "0",
-            limit : "10"
+          offset : page*limit,
+          limit : limit
         },
         async: false,
         success: function (data) {
@@ -259,7 +263,19 @@
           });
 
         }
+      })
+    };
+
+    $(window).scroll(function() {
+
+      if ($(window).scrollTop() >= $(document).height() - $(window).height() - 3) {
+        curPage++;
+        console.log(curPage);
+        getListPaging(curPage, curLimit);
+      }
     });
+
+    getListPaging(0,10);
 
     //생성 버튼 이벤트 설정
     var addtodobtn = $("#addtodobtn");
@@ -371,9 +387,7 @@
       })
 
 
-    })
-
-
+    });
 
 </script>
 
