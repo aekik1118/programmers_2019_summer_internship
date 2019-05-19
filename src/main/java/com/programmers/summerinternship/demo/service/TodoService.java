@@ -41,6 +41,7 @@ public class TodoService {
                 .seq(seq)
                 .title(todo.getTitle())
                 .contents(todo.getContents())
+                .deadline(todo.getDeadline())
                 .hasDeadline(todo.isHasDeadline())
                 .priority(todo.getPriority())
                 .isDone(todo.isDone())
