@@ -130,7 +130,7 @@ public class TodoServiceTest {
                 .isDone(true)
                 .build();
 
-        Todo update = todoService.update(createTodo.getSeq(), updateTodoDto);
+        Todo update = todoService.update(createTodo.getSeq(), updateTodoDto, createTodo.getCreateAt());
         Optional<Todo> getTodo = todoService.getTodo(createTodo.getSeq());
         assertThat(update.getContents()).isEqualTo(getTodo.get().getContents());
     }

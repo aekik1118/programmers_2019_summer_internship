@@ -167,6 +167,26 @@
     </div>
   </div>
 
+  <!--after deadline todolist modal-->
+  <div class="modal fade" id="afterDeadlineModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">마감 기한이 지난 TODO 리스트 입니다.</h5>
+          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <ul id="afterDeadlineTodolist" class="row">
+          </ul>
+        </div>
+        <div class="modal-footer">
+        </div>
+      </div>
+    </div>
+  </div>
+
   <!-- Bootstrap core JavaScript-->
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
@@ -188,7 +208,64 @@
 </body>
 <script>
 
-    // 리스트 출력
+  //기한 지난 TODO리스트 알림
+
+  var afterDeadlineTodolist = $("#afterDeadlineTodolist");
+
+  var cardheader = "<li class=\"container-fluid\">\n" +
+          "              <div class=\"container-fluid\">\n" +
+          "                <div class=\"card shadow mb-4\">\n" +
+          "                  <!-- Card Header - Dropdown -->\n" +
+          "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary\">\n";
+
+
+  var cardheaderWarning = "<li class=\"container-fluid\">\n" +
+          "              <div class=\"container-fluid\">\n" +
+          "                <div class=\"card shadow mb-4\">\n" +
+          "                  <!-- Card Header - Dropdown -->\n" +
+          "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-warning\">\n";
+
+  var cardheaderDanger = "<li class=\"container-fluid\">\n" +
+          "              <div class=\"container-fluid\">\n" +
+          "                <div class=\"card shadow mb-4\">\n" +
+          "                  <!-- Card Header - Dropdown -->\n" +
+          "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-danger\">\n";
+
+  $.ajax({
+    type: "GET",
+    url: "/api/todo/list/afterdeadline",
+    async: false,
+    success: function (data) {
+      console.log(data.length);
+      if(data.length > 0){
+        afterDeadlineTodolist.html("");
+        data.forEach(function (e) {
+          var afterDeadlineCardHeaderBody =
+                  "                    <h6 class=\"m-0 font-weight-bold text-white \">"+e.title+"</h6>\n" +
+                  "                    <h6 class=\"m-0 font-weight-bold text-white \">"+e.deadline+"</h6>\n" +
+                  "                  </div>\n" +
+                  "                </div>\n" +
+                  "              </div>\n" +
+                  "            </li>";
+
+          if(e.priority == 0){
+            afterDeadlineTodolist.append(cardheader + afterDeadlineCardHeaderBody);
+          }
+          else if(e.priority == 1){
+            afterDeadlineTodolist.append(cardheaderWarning + afterDeadlineCardHeaderBody);
+          }
+          else{
+            afterDeadlineTodolist.append(cardheaderDanger + afterDeadlineCardHeaderBody);
+          }
+        });
+        $("#afterDeadlineModal").modal("show");
+      }
+    }
+  });
+
+
+
+  // 리스트 출력
     var todoList = $("#todolist");
 
     var curPage = 0;
@@ -213,26 +290,6 @@
             if(e.deadline != null){
               deadlineInfo = "마감 기한 : " + e.deadline;
             }
-
-            var cardheader = "<li class=\"container-fluid\">\n" +
-                    "              <div class=\"container-fluid\">\n" +
-                    "                <div class=\"card shadow mb-4\">\n" +
-                    "                  <!-- Card Header - Dropdown -->\n" +
-                    "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-primary\">\n";
-
-
-            var cardheaderWarning = "<li class=\"container-fluid\">\n" +
-                    "              <div class=\"container-fluid\">\n" +
-                    "                <div class=\"card shadow mb-4\">\n" +
-                    "                  <!-- Card Header - Dropdown -->\n" +
-                    "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-warning\">\n";
-
-            var cardheaderDanger = "<li class=\"container-fluid\">\n" +
-                    "              <div class=\"container-fluid\">\n" +
-                    "                <div class=\"card shadow mb-4\">\n" +
-                    "                  <!-- Card Header - Dropdown -->\n" +
-                    "                  <div class=\"card-header py-3 d-flex flex-row align-items-center justify-content-between bg-danger\">\n";
-
 
             var cardbody =
                     "                    <h6 class=\"m-0 font-weight-bold text-white \">"+e.title+"</h6>\n" +

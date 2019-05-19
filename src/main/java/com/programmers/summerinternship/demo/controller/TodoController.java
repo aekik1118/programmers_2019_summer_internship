@@ -57,7 +57,7 @@ public class TodoController {
                 return ResponseEntity.notFound().build();
             }
 
-            Todo updateTodo = todoService.update(seq, todoDto);
+            Todo updateTodo = todoService.update(seq, todoDto, getTodo.get().getCreateAt());
             return ResponseEntity.ok(updateTodo);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.toString());
@@ -86,7 +86,7 @@ public class TodoController {
                     .isDone(true)
                     .build();
 
-            Todo updateTodo = todoService.update(seq, todoDto);
+            Todo updateTodo = todoService.update(seq, todoDto, getTodo.get().getCreateAt());
             return ResponseEntity.ok(updateTodo);
         } catch (Exception e){
             return ResponseEntity.badRequest().body(e.toString());
@@ -96,6 +96,12 @@ public class TodoController {
     @GetMapping(path = "list/done")
     public ResponseEntity getDoneTodoList(Long offset, int limit){
         List<Todo> todoList = todoService.findDoneAll(offset, limit);
+        return ResponseEntity.ok(todoList);
+    }
+
+    @GetMapping(path = "list/afterdeadline")
+    public ResponseEntity getAfterDeadlineTodoList(){
+        List<Todo> todoList = todoService.findAfterDeadline();
         return ResponseEntity.ok(todoList);
     }
 }

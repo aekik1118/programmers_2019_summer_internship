@@ -28,4 +28,7 @@ public interface TodoRepository {
 
     @Select("SELECT * FROM TODO WHERE isDone = true ORDER BY deadline OFFSET #{offset} LIMIT #{limit}" )
     List<Todo> selectDoneAll(long offset, int limit);
+
+    @Select("SELECT * FROM TODO WHERE isDone = false AND now() > deadline ORDER BY deadline" )
+    List<Todo> selectAllAfterDeadline();
 }

@@ -5,6 +5,7 @@ import com.programmers.summerinternship.demo.model.TodoDto;
 import com.programmers.summerinternship.demo.repository.TodoRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,11 +37,12 @@ public class TodoService {
         return todoRepository.select(seq);
     }
 
-    public Todo update(Long seq, TodoDto todo) {
+    public Todo update(Long seq, TodoDto todo, LocalDateTime createAt) {
         Todo updateTodo = Todo.builder()
                 .seq(seq)
                 .title(todo.getTitle())
                 .contents(todo.getContents())
+                .createAt(createAt)
                 .deadline(todo.getDeadline())
                 .hasDeadline(todo.isHasDeadline())
                 .priority(todo.getPriority())
@@ -62,5 +64,9 @@ public class TodoService {
             limit = 20;
 
         return todoRepository.selectDoneAll(offset, limit);
+    }
+
+    public List<Todo> findAfterDeadline(){
+        return todoRepository.selectAllAfterDeadline();
     }
 }

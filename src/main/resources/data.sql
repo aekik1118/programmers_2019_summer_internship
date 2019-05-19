@@ -29,4 +29,4 @@ INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('tes
 INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title29', 'test contents3', to_timestamp('2019-05-22 09:31:20','YYYY-MM-DD HH:MI:SS'), 0, true);
 INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title30', 'test contents3', to_timestamp('2019-05-22 09:31:20','YYYY-MM-DD HH:MI:SS'), 0, true);
 INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title31', 'test contents3', to_timestamp('2019-05-22 09:31:20','YYYY-MM-DD HH:MI:SS'), 0, true);
-INSERT INTO TODO (title, contents, deadline, priority, hasDeadline) VALUES ('test title32', 'test contents3', to_timestamp('2019-05-22 09:31:20','YYYY-MM-DD HH:MI:SS'), 0, true);
+INSERT INTO TODO (title, contents, createat, deadline, priority, hasDeadline) VALUES ('test title32', 'test contents3', to_timestamp('2019-05-15 09:31:20','YYYY-MM-DD HH:MI:SS'), to_timestamp('2019-05-16 09:31:20','YYYY-MM-DD HH:MI:SS'), 0, true);
