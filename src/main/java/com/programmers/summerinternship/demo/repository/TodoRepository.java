@@ -14,7 +14,7 @@ public interface TodoRepository {
     @SelectKey(statement = "SELECT nextval('seq_todo')", before = true ,keyProperty = "seq", resultType = Long.class)
     Long save(Todo todo);
 
-    @Select("SELECT * FROM TODO ORDER BY priority DESC, deadline OFFSET #{offset} LIMIT #{limit}" )
+    @Select("SELECT * FROM TODO WHERE isDone = false ORDER BY priority DESC, deadline OFFSET #{offset} LIMIT #{limit}" )
     List<Todo> selectAll(long offset, int limit);
 
     @Select("SELECT * FROM TODO WHERE seq = #{seq}")
@@ -25,4 +25,7 @@ public interface TodoRepository {
 
     @Delete("DELETE FROM TODO WHERE seq = #{seq}")
     void delete(Long seq);
+
+    @Select("SELECT * FROM TODO WHERE isDone = true ORDER BY deadline OFFSET #{offset} LIMIT #{limit}" )
+    List<Todo> selectAllDone(long offset, int limit);
 }

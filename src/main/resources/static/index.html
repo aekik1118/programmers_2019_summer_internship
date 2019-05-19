@@ -367,6 +367,26 @@
 
     });
 
+    todoList.on("click", ".btn-done", function (e) {
+
+      if(confirm("완료 처리 하시겠습니까?")){
+        var seq = $(this).data("seq");
+
+        $.ajax({
+          type: "PUT",
+          url: "/api/todo/" + seq +"/done",
+          async: false,
+          success: function () {
+            alert("완료 처리 되었습니다.");
+            location.reload();
+          },
+          error: function (request, status, error) {
+            alert("code:"+request.status+"\n"+"message:"+request.responseText+"\n"+"error:"+error);
+          }
+        })
+      }
+    });
+
     $("#update-btn").click(function () {
 
       var prioritydata = $('input:radio[name="priority-update"]:checked').val();

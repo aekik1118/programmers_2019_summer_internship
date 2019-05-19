@@ -69,4 +69,27 @@ public class TodoController {
         todoService.delete(seq);
         return ResponseEntity.ok().build();
     }
+
+    @PutMapping("/{seq}/done")
+    public ResponseEntity doneTodo(@PathVariable Long seq){
+        try {
+            Optional<Todo> getTodo = todoService.getTodo(seq);
+            if (!getTodo.isPresent()) {
+                return ResponseEntity.notFound().build();
+            }
+
+            TodoDto todoDto = TodoDto.builder()
+                    .title(getTodo.get().getTitle())
+                    .contents(getTodo.get().getContents())
+                    .deadline(getTodo.get().getDeadline())
+                    .priority(getTodo.get().getPriority())
+                    .isDone(true)
+                    .build();
+
+            Todo updateTodo = todoService.update(seq, todoDto);
+            return ResponseEntity.ok(updateTodo);
+        } catch (Exception e){
+            return ResponseEntity.badRequest().body(e.toString());
+        }
+    }
 }
